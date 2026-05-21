@@ -1,0 +1,1 @@
+<img src="{{ asset('images/cptyres.png') }}" alt="Logo" class="h-8 w-auto">
