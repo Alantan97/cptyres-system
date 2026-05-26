@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\VehicleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +19,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('customers', CustomerController::class);
+Route::prefix('customers')->as('customers.')->controller(CustomerController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{customer}/show', 'show')->name('show');
+    Route::get('/{customer}/edit', 'edit')->name('edit');
+    Route::put('/{customer}/update', 'update')->name('update');
+    Route::delete('/{customer}/delete', 'destroy')->name('destroy');
+});
 
-require __DIR__.'/auth.php';
+Route::prefix('vehicles')->as('vehicles.')->controller(VehicleController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{vehicle}/show', 'show')->name('show');
+    Route::get('/{vehicle}/edit', 'edit')->name('edit');
+    Route::put('/{vehicle}/update', 'update')->name('update');
+    Route::delete('/{vehicle}/delete', 'destroy')->name('destroy');
+});
+
+require __DIR__ . '/auth.php';

@@ -12,28 +12,28 @@
                     <div
                         class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
 
-                        Customer Management
+                        Vehicle Management
 
                     </div>
 
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900">
 
-                        Customers
+                        Vehicles
 
                     </h1>
 
                     <p class="mt-2 text-sm text-gray-500">
 
-                        Manage customer records and information.
+                        Manage customer vehicles and information.
 
                     </p>
 
                 </div>
 
-                <a href="{{ route('customers.create') }}"
+                <a href="{{ route('vehicles.create') }}"
                     class="inline-flex items-center rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
 
-                    + Add Customer
+                    + Add Vehicle
 
                 </a>
 
@@ -52,19 +52,27 @@
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
 
                                 <th class="px-6 py-5">
+                                    Plate Number
+                                </th>
+
+                                <th class="px-6 py-5">
                                     Customer
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Phone
+                                    Brand
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Email
+                                    Model
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Address
+                                    Year
+                                </th>
+
+                                <th class="px-6 py-5">
+                                    Color
                                 </th>
 
                                 <th class="px-6 py-5 text-right">
@@ -78,53 +86,62 @@
                         {{-- Table Body --}}
                         <tbody class="divide-y divide-gray-100 bg-white">
 
-                            @forelse ($customers as $customer)
+                            @forelse ($vehicles as $vehicle)
                                 <tr class="transition hover:bg-gray-50">
 
-                                    {{-- Customer --}}
+                                    {{-- Plate Number --}}
                                     <td class="px-6 py-5">
 
-                                        <div class="flex items-center gap-4">
+                                        <div>
 
-                                            {{-- Info --}}
-                                            <div>
+                                            <p class="font-semibold uppercase tracking-wide text-gray-900">
 
-                                                <p class="font-semibold text-gray-900">
+                                                {{ $vehicle->plate_number }}
 
-                                                    {{ $customer->full_name }}
+                                            </p>
 
-                                                </p>
+                                            <p class="text-sm text-gray-500">
 
-                                                <p class="text-sm text-gray-500">
+                                                Vehicle ID #{{ $vehicle->id }}
 
-                                                    ID #{{ $customer->id }}
-
-                                                </p>
-
-                                            </div>
+                                            </p>
 
                                         </div>
 
                                     </td>
 
-                                    {{-- Phone --}}
+                                    {{-- Customer --}}
                                     <td class="px-6 py-5 text-sm text-gray-600">
 
-                                        {{ $customer->phone }}
+                                        {{ $vehicle->customer->full_name }}
 
                                     </td>
 
-                                    {{-- Email --}}
+                                    {{-- Brand --}}
                                     <td class="px-6 py-5 text-sm text-gray-600">
 
-                                        {{ $customer->email }}
+                                        {{ $vehicle->brand }}
 
                                     </td>
 
-                                    {{-- Address --}}
+                                    {{-- Model --}}
                                     <td class="px-6 py-5 text-sm text-gray-600">
 
-                                        {{ $customer->address }}
+                                        {{ $vehicle->model }}
+
+                                    </td>
+
+                                    {{-- Year --}}
+                                    <td class="px-6 py-5 text-sm text-gray-600">
+
+                                        {{ $vehicle->year }}
+
+                                    </td>
+
+                                    {{-- Color --}}
+                                    <td class="px-6 py-5 text-sm text-gray-600">
+
+                                        {{ $vehicle->color }}
 
                                     </td>
 
@@ -134,7 +151,7 @@
                                         <div class="flex justify-end gap-2">
 
                                             {{-- View --}}
-                                            <a href="{{ route('customers.show', $customer->id) }}"
+                                            <a href="{{ route('vehicles.show', $vehicle->id) }}"
                                                 class="rounded-xl border border-gray-200 px-4 py-2 text-xs font-medium text-gray-700 transition hover:bg-gray-50">
 
                                                 View
@@ -142,7 +159,7 @@
                                             </a>
 
                                             {{-- Edit --}}
-                                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                            <a href="{{ route('vehicles.edit', $vehicle->id) }}"
                                                 class="rounded-xl border border-gray-200 px-4 py-2 text-xs font-medium text-gray-700 transition hover:bg-gray-50">
 
                                                 Edit
@@ -150,9 +167,8 @@
                                             </a>
 
                                             {{-- Delete --}}
-                                            <form action="{{ route('customers.destroy', $customer->id) }}"
-                                                method="POST" class="inline-block"
-                                                onsubmit="return confirm('Delete this customer?')">
+                                            <form action="{{ route('vehicles.destroy', $vehicle->id) }}" method="POST"
+                                                class="inline-block" onsubmit="return confirm('Delete this vehicle?')">
 
                                                 @csrf
                                                 @method('DELETE')
@@ -176,32 +192,19 @@
 
                                 <tr>
 
-                                    <td colspan="5" class="px-6 py-16 text-center">
+                                    <td colspan="7" class="px-6 py-16 text-center">
 
                                         <div class="flex flex-col items-center">
 
-                                            <div class="mb-4 rounded-full bg-gray-100 p-4">
-
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M17 20h5V4H2v16h5m10 0v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6m10 0H7" />
-
-                                                </svg>
-
-                                            </div>
-
                                             <h3 class="text-sm font-semibold text-gray-900">
 
-                                                No customers found
+                                                No vehicles found
 
                                             </h3>
 
                                             <p class="mt-1 text-sm text-gray-500">
 
-                                                Start by creating your first customer.
+                                                Start by creating your first vehicle.
 
                                             </p>
 
