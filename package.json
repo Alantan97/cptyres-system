@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "axios": "^1.16.0",
-        "flowbite": "^4.0.1"
+        "flowbite": "^4.0.1",
+        "tom-select": "^2.6.1"
     }
 }

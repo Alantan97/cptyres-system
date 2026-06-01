@@ -8,7 +8,6 @@ class ServiceRecord extends Model
 {
     protected $fillable = [
         'vehicle_id',
-        'service_id',
         'service_date',
         'mileage',
         'notes',
@@ -21,8 +20,8 @@ class ServiceRecord extends Model
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function service()
+    public function items()
     {
-        return $this->belongsTo(Service::class);
+        return $this->hasMany(ServiceRecordItem::class);
     }
 }

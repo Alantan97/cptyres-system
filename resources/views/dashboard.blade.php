@@ -135,7 +135,7 @@
 
                     <h2 class="text-lg font-semibold text-gray-900">
 
-                        Recent Service Records
+                        Recent Job Orders
 
                     </h2>
 
@@ -190,9 +190,26 @@
 
                                     </td>
 
-                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                    <td class="px-6 py-4">
 
-                                        {{ $record->service->service_name }}
+                                        <div class="flex flex-col gap-2">
+
+                                            @foreach ($record->items as $item)
+                                                <div
+                                                    class="inline-flex w-fit items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+
+                                                    {{ $item->service->service_name }}
+
+                                                    <span class="text-gray-500">
+
+                                                        x{{ $item->quantity }}
+
+                                                    </span>
+
+                                                </div>
+                                            @endforeach
+
+                                        </div>
 
                                     </td>
 

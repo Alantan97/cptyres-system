@@ -10,10 +10,48 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::latest()->get();
-        return view('customers.index', compact('customers'));
+        $search = $request->search;
+
+        $sort = $request->sort;
+
+        $direction = $request->direction ?? 'asc';
+
+        $customers = Customer::when($search, function ($query) use ($search) {
+
+            $query->where('full_name', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+        });
+
+        // Sorting
+        if ($sort == 'name') {
+
+            $customers->orderBy('full_name', $direction);
+        } elseif ($sort == 'phone') {
+
+            $customers->orderBy('phone', $direction);
+        } elseif ($sort == 'email') {
+
+            $customers->orderBy('email', $direction);
+        } elseif ($sort == 'date') {
+
+            $customers->orderBy('created_at', $direction);
+        } else {
+
+            $customers->latest();
+        }
+
+        $customers = $customers->paginate(10)
+            ->withQueryString();
+
+        return view('customers.index', compact(
+            'customers',
+            'search',
+            'sort',
+            'direction'
+        ));
     }
 
     /**

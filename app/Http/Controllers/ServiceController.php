@@ -7,10 +7,45 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::latest()->get();
-        return view('services.index', compact('services'));
+        $search = $request->search;
+
+        $sort = $request->sort;
+
+        $direction = $request->direction ?? 'asc';
+
+        $services = Service::when($search, function ($query) use ($search) {
+
+            $query->where('service_name', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")
+                ->orWhere('price', 'like', "%{$search}%");
+        });
+
+        // Sorting
+        if ($sort == 'name') {
+
+            $services->orderBy('service_name', $direction);
+        } elseif ($sort == 'price') {
+
+            $services->orderBy('price', $direction);
+        } elseif ($sort == 'date') {
+
+            $services->orderBy('created_at', $direction);
+        } else {
+
+            $services->latest();
+        }
+
+        $services = $services->paginate(10)
+            ->withQueryString();
+
+        return view('services.index', compact(
+            'services',
+            'search',
+            'sort',
+            'direction'
+        ));
     }
 
     public function create()

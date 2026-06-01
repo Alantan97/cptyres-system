@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\ServiceController;
@@ -9,10 +10,14 @@ use App\Http\Controllers\ServiceRecordController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -59,6 +64,7 @@ Route::prefix('service-records')->as('service-records.')->controller(ServiceReco
     Route::get('/{serviceRecord}/edit', 'edit')->name('edit');
     Route::put('/{serviceRecord}/update', 'update')->name('update');
     Route::delete('/{serviceRecord}/delete', 'destroy')->name('destroy');
+    Route::get('/{serviceRecord}/invoice', 'invoice')->name('invoice');
 });
 
 require __DIR__ . '/auth.php';

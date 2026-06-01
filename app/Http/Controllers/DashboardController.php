@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
         $recentRecords = ServiceRecord::with([
             'vehicle.customer',
-            'service'
+            'items.service'
         ])
             ->latest()
             ->take(5)

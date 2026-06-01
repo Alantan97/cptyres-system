@@ -8,13 +8,63 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vehicles = Vehicle::with('customer')
-            ->latest()
-            ->get();
+        $search = $request->search;
 
-        return view('vehicles.index', compact('vehicles'));
+        $sort = $request->sort;
+
+        $direction = $request->direction ?? 'asc';
+
+        $vehicles = Vehicle::with('customer')
+
+            ->when($search, function ($query) use ($search) {
+
+                $query->where('plate_number', 'like', "%{$search}%")
+                    ->orWhere('brand', 'like', "%{$search}%")
+                    ->orWhere('model', 'like', "%{$search}%")
+
+                    ->orWhereHas('customer', function ($q) use ($search) {
+
+                        $q->where('full_name', 'like', "%{$search}%");
+                    });
+            });
+
+        // Sorting
+        if ($sort == 'plate') {
+
+            $vehicles->orderBy('plate_number', $direction);
+        } elseif ($sort == 'customer') {
+
+            $vehicles->join('customers', 'vehicles.customer_id', '=', 'customers.id')
+                ->orderBy('customers.full_name', $direction)
+                ->select('vehicles.*');
+        } elseif ($sort == 'brand') {
+
+            $vehicles->orderBy('brand', $direction);
+        } elseif ($sort == 'model') {
+
+            $vehicles->orderBy('model', $direction);
+        } elseif ($sort == 'year') {
+
+            $vehicles->orderBy('year', $direction);
+        } elseif ($sort == 'color') {
+
+            $vehicles->orderBy('color', $direction);
+        } else {
+
+            $vehicles->latest();
+        }
+
+        $vehicles = $vehicles->paginate(10)
+            ->withQueryString();
+
+        return view('vehicles.index', compact(
+            'vehicles',
+            'search',
+            'sort',
+            'direction'
+        ));
     }
 
     public function create()

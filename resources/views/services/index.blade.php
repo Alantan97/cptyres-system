@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
             {{-- Header --}}
-            <div class="mb-8 flex items-center justify-between">
+            <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
                 <div>
 
@@ -16,7 +16,7 @@
 
                     </div>
 
-                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+                    <h1 class="text-3xl font-bold text-gray-900">
 
                         Services
 
@@ -30,12 +30,26 @@
 
                 </div>
 
-                <a href="{{ route('services.create') }}"
-                    class="inline-flex items-center rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+                <div class="flex items-center gap-3">
 
-                    + Add Service
+                    {{-- Search --}}
+                    <form action="{{ route('services.index') }}" method="GET">
 
-                </a>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search service, description, price..."
+                            class="w-80 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring-primary">
+
+                    </form>
+
+                    {{-- Add Button --}}
+                    <a href="{{ route('services.create') }}"
+                        class="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+
+                        + Add Service
+
+                    </a>
+
+                </div>
 
             </div>
 
@@ -52,7 +66,24 @@
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
 
                                 <th class="px-6 py-5">
-                                    Service
+
+                                    <a href="{{ route('services.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'name',
+                                    
+                                        'direction' => request('sort') == 'name' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        SERVICE NAME
+
+                                        @if (request('sort') == 'name')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5">
@@ -60,7 +91,24 @@
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Price
+
+                                    <a href="{{ route('services.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'price',
+                                    
+                                        'direction' => request('sort') == 'price' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        PRICE
+
+                                        @if (request('sort') == 'price')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5 text-right">
@@ -190,6 +238,12 @@
                         </tbody>
 
                     </table>
+
+                    <div class="border-t border-gray-100 px-6 py-4">
+
+                        {{ $services->links() }}
+
+                    </div>
 
                 </div>
 

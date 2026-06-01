@@ -16,4 +16,9 @@ class Service extends Model
     {
         return $this->hasMany(ServiceRecord::class);
     }
+
+    public function serviceRecordItems()
+    {
+        return $this->hasMany(ServiceRecordItem::class);
+    }
 }

@@ -11,27 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('service_records', function (Blueprint $table) {
+        Schema::create('service_record_items', function (Blueprint $table) {
 
             $table->id();
 
-            $table->foreignId('vehicle_id')
+            $table->foreignId('service_record_id')
                 ->constrained()
                 ->onDelete('cascade');
 
-            $table->date('service_date');
+            $table->foreignId('service_id')
+                ->constrained()
+                ->onDelete('cascade');
 
-            $table->integer('mileage');
+            $table->integer('quantity')
+                ->default(1);
 
-            $table->text('notes')->nullable();
+            $table->decimal('price', 10, 2);
 
-            $table->decimal('total_price', 10, 2)
-                ->default(0);
-
-            $table->enum('status', [
-                'pending',
-                'completed'
-            ])->default('pending');
+            $table->decimal('subtotal', 10, 2);
 
             $table->timestamps();
         });
@@ -42,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('service_records');
+        Schema::dropIfExists('service_record_items');
     }
 };

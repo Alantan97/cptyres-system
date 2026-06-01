@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
             {{-- Header --}}
-            <div class="mb-8 flex items-center justify-between">
+            <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
                 <div>
 
@@ -16,7 +16,7 @@
 
                     </div>
 
-                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+                    <h1 class="text-3xl font-bold text-gray-900">
 
                         Vehicles
 
@@ -24,18 +24,32 @@
 
                     <p class="mt-2 text-sm text-gray-500">
 
-                        Manage customer vehicles and information.
+                        Manage registered customer vehicles.
 
                     </p>
 
                 </div>
 
-                <a href="{{ route('vehicles.create') }}"
-                    class="inline-flex items-center rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+                <div class="flex items-center gap-3">
 
-                    + Add Vehicle
+                    {{-- Search --}}
+                    <form action="{{ route('vehicles.index') }}" method="GET">
 
-                </a>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search plate number, brand, model..."
+                            class="w-80 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring-primary">
+
+                    </form>
+
+                    {{-- Add Button --}}
+                    <a href="{{ route('vehicles.create') }}"
+                        class="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+
+                        + Add Vehicle
+
+                    </a>
+
+                </div>
 
             </div>
 
@@ -52,27 +66,129 @@
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
 
                                 <th class="px-6 py-5">
-                                    Plate Number
+
+                                    <a href="{{ route('vehicles.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'plate',
+                                    
+                                        'direction' => request('sort') == 'plate' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        PLATE NUMBER
+
+                                        @if (request('sort') == 'plate')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Customer
+
+                                    <a href="{{ route('vehicles.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'customer',
+                                    
+                                        'direction' => request('sort') == 'customer' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        CUSTOMER
+
+                                        @if (request('sort') == 'customer')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Brand
+
+                                    <a href="{{ route('vehicles.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'brand',
+                                    
+                                        'direction' => request('sort') == 'brand' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        BRAND
+
+                                        @if (request('sort') == 'brand')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Model
+
+                                    <a href="{{ route('vehicles.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'model',
+                                    
+                                        'direction' => request('sort') == 'model' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        MODEL
+
+                                        @if (request('sort') == 'model')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Year
+
+                                    <a href="{{ route('vehicles.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'year',
+                                    
+                                        'direction' => request('sort') == 'year' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        YEAR
+
+                                        @if (request('sort') == 'year')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Color
+
+                                    <a href="{{ route('vehicles.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'color',
+                                    
+                                        'direction' => request('sort') == 'color' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        COLOR
+
+                                        @if (request('sort') == 'color')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+
                                 </th>
 
                                 <th class="px-6 py-5 text-right">
@@ -218,6 +334,12 @@
                         </tbody>
 
                     </table>
+
+                    <div class="border-t border-gray-100 px-6 py-4">
+
+                        {{ $vehicles->links() }}
+
+                    </div>
 
                 </div>
 
