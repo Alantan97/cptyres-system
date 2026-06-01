@@ -268,28 +268,23 @@
                 .innerText = grandTotal.toFixed(2);
         }
 
-        document.addEventListener('click', function(e) {
+        addServiceRow();
 
-            if (e.target.classList.contains('remove-service')) {
+        function removeRow(button) {
 
-                const rows = document.querySelectorAll('.service-row');
+            const rows = document.querySelectorAll('.service-row');
 
-                // Prevent deleting all rows
-                if (rows.length === 1) {
+            // Prevent removing last row
+            if (rows.length === 1) {
 
-                    return;
-
-                }
-
-                e.target.closest('.service-row').remove();
-
-                updatePrices();
+                return;
 
             }
 
-        });
+            button.closest('.service-row').remove();
 
-        addServiceRow();
+            updatePrices();
+        }
     </script>
 
 </x-app-layout>
