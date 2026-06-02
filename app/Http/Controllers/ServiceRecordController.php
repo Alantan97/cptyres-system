@@ -8,6 +8,7 @@ use App\Models\ServiceRecord;
 use App\Models\ServiceRecordItem;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Notification;
 
 class ServiceRecordController extends Controller
 {
@@ -138,6 +139,12 @@ class ServiceRecordController extends Controller
             'total_price' => $grandTotal,
         ]);
 
+        Notification::create([
+            'title' => 'New Job Order',
+            'message' => 'Job Order #' . $serviceRecord->id . ' was created.',
+            'service_record_id' => $serviceRecord->id,
+        ]);
+
         return redirect()
             ->route('service-records.index')
             ->with('success', 'Service record created successfully');
@@ -223,6 +230,11 @@ class ServiceRecordController extends Controller
             'total_price' => $grandTotal,
         ]);
 
+        Notification::create([
+            'title' => 'Job Order Updated',
+            'message' => 'Job Order #' . $serviceRecord->id . ' was updated.',
+        ]);
+
         return redirect()
             ->route('service-records.index')
             ->with('success', 'Service record updated successfully');
@@ -230,6 +242,12 @@ class ServiceRecordController extends Controller
 
     public function destroy(ServiceRecord $serviceRecord)
     {
+        Notification::create([
+            'title' => 'Job Order Deleted',
+            'message' => 'Job Order #' . $serviceRecord->id . ' was deleted.',
+            'service_record_id' => $serviceRecord->id,
+        ]);
+
         $serviceRecord->delete();
 
         return redirect()

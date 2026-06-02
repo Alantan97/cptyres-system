@@ -117,6 +117,153 @@
 
             </div>
 
+            {{-- Service History --}}
+            <div class="mt-8 overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+
+                <div class="border-b border-gray-100 px-8 py-6">
+
+                    <h2 class="text-xl font-bold text-gray-900">
+
+                        Service History
+
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-500">
+
+                        Previous customer job orders and services.
+
+                    </p>
+
+                </div>
+
+                <div class="overflow-x-auto">
+
+                    <table class="min-w-full">
+
+                        <thead class="bg-gray-50">
+
+                            <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                                <th class="px-6 py-4">
+                                    Date
+                                </th>
+
+                                <th class="px-6 py-4">
+                                    Vehicle
+                                </th>
+
+                                <th class="px-6 py-4">
+                                    Services
+                                </th>
+
+                                <th class="px-6 py-4">
+                                    Status
+                                </th>
+
+                                <th class="px-6 py-4">
+                                    Total
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="divide-y divide-gray-100 bg-white">
+
+                            @forelse ($customer->vehicles as $vehicle)
+
+                                @foreach ($vehicle->serviceRecords as $record)
+                                    <tr class="hover:bg-gray-50">
+
+                                        {{-- Date --}}
+                                        <td class="px-6 py-4 text-sm text-gray-700">
+
+                                            {{ $record->service_date }}
+
+                                        </td>
+
+                                        {{-- Vehicle --}}
+                                        <td class="px-6 py-4">
+
+                                            <div class="font-medium text-gray-900">
+
+                                                {{ $vehicle->plate_number }}
+
+                                            </div>
+
+                                            <div class="text-sm text-gray-500">
+
+                                                {{ $vehicle->brand }}
+                                                {{ $vehicle->model }}
+
+                                            </div>
+
+                                        </td>
+
+                                        {{-- Services --}}
+                                        <td class="px-6 py-4">
+
+                                            <div class="flex flex-wrap gap-2">
+
+                                                @foreach ($record->items as $item)
+                                                    <span
+                                                        class="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+
+                                                        {{ $item->service->service_name }}
+
+                                                    </span>
+                                                @endforeach
+
+                                            </div>
+
+                                        </td>
+
+                                        {{-- Status --}}
+                                        <td class="px-6 py-4">
+
+                                            <span
+                                                class="rounded-full px-3 py-1 text-xs font-medium
+
+                                    {{ $record->status == 'completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
+
+                                                {{ ucfirst($record->status) }}
+
+                                            </span>
+
+                                        </td>
+
+                                        {{-- Total --}}
+                                        <td class="px-6 py-4 font-semibold text-gray-900">
+
+                                            RM {{ number_format($record->total_price, 2) }}
+
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+
+                            @empty
+
+                                <tr>
+
+                                    <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-500">
+
+                                        No service history found.
+
+                                    </td>
+
+                                </tr>
+
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>

@@ -1,4 +1,12 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+@php
+
+    $notifications = \App\Models\Notification::latest()->take(5)->get();
+
+    $unreadCount = \App\Models\Notification::where('is_read', false)->count();
+
+@endphp
+
+<nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-gray-100 bg-white/80 shadow-sm backdrop-blur">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -32,6 +40,160 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+
+                {{-- Notifications --}}
+                <div class="hidden sm:flex sm:items-center sm:me-4">
+
+                    <x-dropdown align="right" width="96">
+
+                        <x-slot name="trigger">
+
+                            <button
+                                class="relative rounded-xl p-2 text-gray-500 transition hover:bg-gray-100 hover:text-primary">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
+
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0018 9.75v-.7V9a6 6 0 10-12 0v.05-.001v.701a8.967 8.967 0 00-2.312 6.022c1.733.64 3.56 1.08 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+
+                                </svg>
+
+                                @if ($unreadCount > 0)
+                                    <span
+                                        class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+
+                                        {{ $unreadCount }}
+
+                                    </span>
+                                @endif
+
+                            </button>
+
+                        </x-slot>
+
+                        <x-slot name="content">
+
+                            <div class="px-4 py-3">
+
+                                <div class="flex items-center justify-between px-5 py-2">
+
+                                    <div>
+
+                                        <h3 class="text-sm font-semibold text-primary" style="font-size: 25px;">
+
+                                            Notifications
+
+                                        </h3>
+
+                                        <p class="mt-1 text-xs text-gray-500">
+
+                                            Recent system activities
+
+                                        </p>
+
+                                    </div>
+
+                                    @if ($unreadCount > 0)
+                                        <form method="POST" action="{{ route('notifications.readAll') }}">
+
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <button type="submit"
+                                                class="text-xs font-medium text-primary transition hover:opacity-70">
+
+                                                Mark all as read
+
+                                            </button>
+
+                                        </form>
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                            <div class="max-h-96 w-96 overflow-y-auto">
+
+                                @forelse ($notifications as $notification)
+                                    <form method="POST" action="{{ route('notifications.read', $notification) }}">
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button type="submit"
+                                            class="w-full border-t border-gray-100 px-5 py-4 text-left transition hover:bg-gray-50">
+
+                                            <div class="flex items-start justify-between gap-3">
+
+                                                <div>
+
+                                                    <h4
+                                                        class="text-sm font-semibold
+                                                        {{ $notification->type === 'service_reminder' ? 'text-orange-600' : 'text-gray-900' }}">
+                                                        @if ($notification->type === 'service_reminder')
+                                                            <div
+                                                                class="self-center flex h-8 w-8 items-center justify-center rounded-2xl bg-orange-100 text-orange-600">
+
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.8"
+                                                                    stroke="currentColor" class="h-5 w-5">
+
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 9v3.75m9.303 3.376c.866 1.5-.217 3.374-1.95 3.374H4.647c-1.733 0-2.816-1.874-1.95-3.374L10.05 3.374c.866-1.5 3.034-1.5 3.9 0l7.353 12.752zM12 16.5h.008v.008H12v-.008z" />
+
+                                                                </svg>
+
+                                                            </div>
+                                                        @endif
+                                                        {{ $notification->title }}
+
+                                                    </h4>
+
+                                                    <p class="mt-1 text-sm leading-relaxed text-gray-500">
+
+                                                        {{ $notification->message }}
+
+                                                    </p>
+
+                                                    <p class="mt-2 text-xs text-gray-400">
+
+                                                        {{ $notification->created_at->diffForHumans() }}
+
+                                                    </p>
+
+                                                </div>
+
+                                                @if (!$notification->is_read)
+                                                    <span class="mt-1 h-2.5 w-2.5 rounded-full bg-primary">
+
+                                                    </span>
+                                                @endif
+
+                                            </div>
+
+                                        </button>
+
+                                    </form>
+
+                                @empty
+
+                                    <div class="px-4 py-6 text-center text-sm text-gray-500">
+
+                                        No notifications
+
+                                    </div>
+                                @endforelse
+
+                            </div>
+
+                        </x-slot>
+
+                    </x-dropdown>
+
+                </div>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -60,7 +222,7 @@
 
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                            this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>

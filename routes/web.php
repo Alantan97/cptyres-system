@@ -67,4 +67,16 @@ Route::prefix('service-records')->as('service-records.')->controller(ServiceReco
     Route::get('/{serviceRecord}/invoice', 'invoice')->name('invoice');
 });
 
+Route::patch(
+    '/notifications/{notification}/read',
+    [App\Http\Controllers\NotificationController::class, 'markAsRead']
+)
+    ->name('notifications.read');
+
+Route::patch(
+    '/notifications/read-all',
+    [App\Http\Controllers\NotificationController::class, 'markAllAsRead']
+)
+    ->name('notifications.readAll');
+
 require __DIR__ . '/auth.php';

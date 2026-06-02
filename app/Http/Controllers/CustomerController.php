@@ -91,7 +91,13 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return view('customers.show', compact('customer'));
+        $customer->load([
+            'vehicles.serviceRecords.items.service'
+        ]);
+
+        return view('customers.show', compact(
+            'customer'
+        ));
     }
 
     /**
