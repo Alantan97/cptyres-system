@@ -9,6 +9,7 @@ use App\Models\ServiceRecordItem;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceRecordController extends Controller
 {
@@ -242,6 +243,10 @@ class ServiceRecordController extends Controller
 
     public function destroy(ServiceRecord $serviceRecord)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         Notification::create([
             'title' => 'Job Order Deleted',
             'message' => 'Job Order #' . $serviceRecord->id . ' was deleted.',

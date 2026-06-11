@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -50,11 +51,19 @@ class ServiceController extends Controller
 
     public function create()
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         return view('services.create');
     }
 
     public function store(Request $request)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         $request->validate([
             'service_name' => 'required',
             'description' => 'nullable',
@@ -79,11 +88,19 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         return view('services.edit', compact('service'));
     }
 
     public function update(Request $request, Service $service)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         $request->validate([
             'service_name' => 'required',
             'description' => 'nullable',
@@ -103,6 +120,10 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         $service->delete();
 
         return redirect()

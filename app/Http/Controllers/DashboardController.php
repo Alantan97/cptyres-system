@@ -8,11 +8,16 @@ use App\Models\Vehicle;
 use App\Models\ServiceRecord;
 use Carbon\Carbon;
 use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         $totalCustomers = Customer::count();
 
         $totalVehicles = Vehicle::count();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
@@ -137,6 +138,10 @@ class VehicleController extends Controller
 
     public function destroy(Vehicle $vehicle)
     {
+        if (Auth::user()->role !== 'admin') {
+            abort(403);
+        }
+
         $vehicle->delete();
 
         return redirect()
