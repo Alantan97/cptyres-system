@@ -1,79 +1,149 @@
 <x-app-layout>
 
-    <div class="py-10">
+    <div class="min-h-screen bg-gray-50 py-10">
 
-        <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl px-6 lg:px-8">
 
-            <div class="mb-6">
+            {{-- Header --}}
+            <div class="mb-8 flex items-center justify-between">
 
-                <h2 class="text-2xl font-semibold text-gray-900">
-                    Add Customer
-                </h2>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">
 
-                <p class="mt-1 text-sm text-gray-500">
-                    Fill in customer information.
-                </p>
+                        Add Customer
+
+                    </h1>
+
+                    <p class="mt-2 text-sm text-gray-500">
+
+                        Create a new customer record.
+
+                    </p>
+                </div>
+
+                <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+
+                    Customer Management
+
+                </div>
 
             </div>
 
-            <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            {{-- Form Card --}}
+            <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
 
                 <form action="{{ route('customers.store') }}" method="POST">
 
                     @csrf
 
-                    <div class="space-y-6">
+                    <div class="grid gap-8 p-8 md:grid-cols-2">
 
+                        {{-- Full Name --}}
                         <div>
+
                             <label class="mb-2 block text-sm font-medium text-gray-700">
+
                                 Full Name
+
                             </label>
 
-                            <input type="text"
-                                name="full_name"
-                                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-black focus:ring-black">
+                            <input type="text" name="full_name" value="{{ old('full_name') }}"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
+
+                            @error('full_name')
+                                <p class="mt-2 text-sm text-red-500">
+
+                                    {{ $message }}
+
+                                </p>
+                            @enderror
+
                         </div>
 
+                        {{-- Phone Number --}}
                         <div>
+
                             <label class="mb-2 block text-sm font-medium text-gray-700">
-                                Phone
+
+                                Phone Number
+
                             </label>
 
-                            <input type="text"
-                                name="phone"
-                                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-black focus:ring-black">
+                            <input type="text" name="phone" value="{{ old('phone') }}"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
+
+                            @error('phone')
+                                <p class="mt-2 text-sm text-red-500">
+
+                                    {{ $message }}
+
+                                </p>
+                            @enderror
+
                         </div>
 
-                        <div>
+                        {{-- Email Address --}}
+                        <div class="md:col-span-2">
+
                             <label class="mb-2 block text-sm font-medium text-gray-700">
-                                Email
+
+                                Email Address
+
                             </label>
 
-                            <input type="email"
-                                name="email"
-                                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-black focus:ring-black">
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
+
+                            @error('email')
+                                <p class="mt-2 text-sm text-red-500">
+
+                                    {{ $message }}
+
+                                </p>
+                            @enderror
+
                         </div>
 
-                        <div>
+                        {{-- Address --}}
+                        <div class="md:col-span-2">
+
                             <label class="mb-2 block text-sm font-medium text-gray-700">
+
                                 Address
+
                             </label>
 
-                            <textarea name="address"
-                                rows="4"
-                                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-black focus:ring-black"></textarea>
-                        </div>
+                            <textarea name="address" rows="5"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">{{ old('address') }}</textarea>
 
-                        <div class="flex justify-end">
+                            @error('address')
+                                <p class="mt-2 text-sm text-red-500">
 
-                            <button type="submit"
-                                class="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-hover">
+                                    {{ $message }}
 
-                                Save Customer
-
-                            </button>
+                                </p>
+                            @enderror
 
                         </div>
+
+                    </div>
+
+                    {{-- Footer --}}
+                    <div class="flex items-center justify-end gap-4 border-t border-gray-100 bg-gray-50 px-8 py-5">
+
+                        <a href="{{ route('customers.index') }}"
+                            class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+
+                            Cancel
+
+                        </a>
+
+                        <button type="submit"
+                            class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
+
+                            Create Customer
+
+                        </button>
 
                     </div>
 

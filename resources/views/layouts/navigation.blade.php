@@ -33,21 +33,21 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endif
-                    <x-nav-link :href="route('service-records.index')" :active="request()->routeIs('service-records.index')">
-                        {{ __('Job Orders') }}
+                    <x-nav-link :href="route('service-records.index')" :active="request()->routeIs('service-records.*')">
+                        Job Orders
                     </x-nav-link>
-                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.index')">
-                        {{ __('Customers') }}
+                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
+                        Customers
                     </x-nav-link>
-                    <x-nav-link :href="route('vehicles.index')" :active="request()->routeIs('vehicles.index')">
-                        {{ __('Vehicles') }}
+                    <x-nav-link :href="route('vehicles.index')" :active="request()->routeIs('vehicles.*')">
+                        Vehicles
                     </x-nav-link>
-                    <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
-                        {{ __('Services') }}
+                    <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
+                        Services
                     </x-nav-link>
                     @if (auth()->user()->isAdmin())
-                        <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
-                            {{ __('Staff Management') }}
+                        <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.*')">
+                            Staff Management
                         </x-nav-link>
                     @endif
                 </div>

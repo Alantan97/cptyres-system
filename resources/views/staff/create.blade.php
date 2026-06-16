@@ -2,7 +2,7 @@
 
     <div class="min-h-screen bg-gray-50 py-10">
 
-        <div class="mx-auto max-w-3xl px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl px-6 lg:px-8">
 
             {{-- Header --}}
             <div class="mb-8">
@@ -30,119 +30,115 @@
             {{-- Form Card --}}
             <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
 
-                <form method="POST" action="{{ route('staff.store') }}" class="space-y-6 p-8">
+                <form method="POST" action="{{ route('staff.store') }}">
 
                     @csrf
 
-                    {{-- Name --}}
-                    <div>
+                    <div class="grid gap-8 p-8 md:grid-cols-2">
 
-                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+                        {{-- Full Name --}}
+                        <div>
 
-                            Full Name
+                            <label class="mb-2 block text-sm font-medium text-gray-700">
 
-                        </label>
+                                Full Name
 
-                        <input type="text" name="name" value="{{ old('name') }}"
-                            class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-0">
+                            </label>
 
-                        @error('name')
-                            <p class="mt-2 text-sm text-red-500">
+                            <input type="text" name="name" value="{{ old('name') }}"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
-                                {{ $message }}
+                            @error('name')
+                                <p class="mt-2 text-sm text-red-500">
+                                    {{ $message }}
+                                </p>
+                            @enderror
 
-                            </p>
-                        @enderror
+                        </div>
 
-                    </div>
+                        {{-- Email --}}
+                        <div>
 
-                    {{-- Email --}}
-                    <div>
+                            <label class="mb-2 block text-sm font-medium text-gray-700">
 
-                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+                                Email Address
 
-                            Email Address
+                            </label>
 
-                        </label>
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
-                        <input type="email" name="email" value="{{ old('email') }}"
-                            class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-0">
+                            @error('email')
+                                <p class="mt-2 text-sm text-red-500">
+                                    {{ $message }}
+                                </p>
+                            @enderror
 
-                        @error('email')
-                            <p class="mt-2 text-sm text-red-500">
+                        </div>
 
-                                {{ $message }}
+                        {{-- Password --}}
+                        <div>
 
-                            </p>
-                        @enderror
+                            <label class="mb-2 block text-sm font-medium text-gray-700">
 
-                    </div>
+                                Password
 
-                    {{-- Password --}}
-                    <div>
+                            </label>
 
-                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+                            <input type="password" name="password"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
-                            Password
+                            @error('password')
+                                <p class="mt-2 text-sm text-red-500">
+                                    {{ $message }}
+                                </p>
+                            @enderror
 
-                        </label>
+                        </div>
 
-                        <input type="password" name="password"
-                            class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-0">
+                        {{-- Role --}}
+                        <div>
 
-                        @error('password')
-                            <p class="mt-2 text-sm text-red-500">
+                            <label class="mb-2 block text-sm font-medium text-gray-700">
 
-                                {{ $message }}
+                                Role
 
-                            </p>
-                        @enderror
+                            </label>
 
-                    </div>
+                            <select name="role"
+                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
-                    {{-- Role --}}
-                    <div>
+                                <option value="staff">
 
-                        <label class="mb-2 block text-sm font-semibold text-gray-700">
+                                    Staff
 
-                            Role
+                                </option>
 
-                        </label>
+                                <option value="admin">
 
-                        <select name="role"
-                            class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-0">
+                                    Admin
 
-                            <option value="staff">
+                                </option>
 
-                                Staff
+                            </select>
 
-                            </option>
+                            @error('role')
+                                <p class="mt-2 text-sm text-red-500">
+                                    {{ $message }}
+                                </p>
+                            @enderror
 
-                            <option value="admin">
-
-                                Admin
-
-                            </option>
-
-                        </select>
-
-                        @error('role')
-                            <p class="mt-2 text-sm text-red-500">
-
-                                {{ $message }}
-
-                            </p>
-                        @enderror
+                        </div>
 
                     </div>
 
-                    {{-- Actions --}}
-                    <div class="flex items-center justify-end gap-4 pt-4">
+                    {{-- Footer --}}
+                    <div class="flex items-center justify-end gap-4 border-t border-gray-100 bg-gray-50 px-8 py-5">
 
                         <a href="{{ route('staff.index') }}"
                             class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
 
-                            Cancel
+                            Back
 
                         </a>
 

@@ -5,15 +5,23 @@
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
             {{-- Header --}}
-            <div class="mb-8">
+            <div class="mb-8 flex items-center justify-between">
 
-                <h1 class="text-3xl font-bold text-gray-900">
-                    Edit Job Order
-                </h1>
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">
+                        Edit Job Order
+                    </h1>
 
-                <p class="mt-2 text-sm text-gray-500">
-                    Update workshop transaction and services.
-                </p>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Update workshop transaction and services.
+                    </p>
+                </div>
+
+                <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+
+                    Job Order Management
+
+                </div>
 
             </div>
 
@@ -87,7 +95,7 @@
                             </h2>
 
                             <button type="button" onclick="addServiceRow()"
-                                class="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white">
+                                class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                                 + Add Service
 
@@ -201,7 +209,15 @@
 
                                 </select>
 
-                                <button type="submit" class="rounded-xl bg-primary px-6 py-3 font-medium text-white">
+                                <a href="{{ route('service-records.index') }}"
+                                    class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+
+                                    Cancel
+
+                                </a>
+
+                                <button type="submit"
+                                    class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                                     Update Record
 

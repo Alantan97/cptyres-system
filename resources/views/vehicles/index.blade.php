@@ -43,7 +43,7 @@
 
                     {{-- Add Button --}}
                     <a href="{{ route('vehicles.create') }}"
-                        class="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+                        class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                         + Add Vehicle
 
@@ -64,6 +64,10 @@
                         <thead class="bg-gray-50">
 
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                                <th class="px-6 py-5">
+                                    No.
+                                </th>
 
                                 <th class="px-6 py-5">
 
@@ -204,6 +208,12 @@
 
                             @forelse ($vehicles as $vehicle)
                                 <tr class="transition hover:bg-gray-50">
+
+                                    <td class="px-6 py-5">
+
+                                        {{ ($vehicles->currentPage() - 1) * $vehicles->perPage() + $loop->iteration }}
+
+                                    </td>
 
                                     {{-- Plate Number --}}
                                     <td class="px-6 py-5">

@@ -3,17 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class StaffController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $staff = User::latest()->get();
+        $search = $request->search;
 
-        return view('staff.index', compact('staff'));
+        $sort = $request->get('sort', 'name');
+
+        $direction = $request->get('direction', 'asc');
+
+        $staff = User::query()
+
+            ->when($search, function ($query) use ($search) {
+
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('role', 'like', "%{$search}%");
+            })
+
+            ->orderBy($sort, $direction)
+
+            ->paginate(10)
+
+            ->withQueryString();
+
+        return view('staff.index', compact(
+            'staff',
+            'search',
+            'sort',
+            'direction'
+        ));
     }
 
     public function create()

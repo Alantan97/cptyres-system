@@ -30,14 +30,30 @@
 
                 </div>
 
-                <a href="{{ route('staff.create') }}"
-                    class="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
+                {{-- Search --}}
+                <div class="flex items-center gap-3">
+                    <form action="{{ route('staff.index') }}" method="GET">
 
-                    Add Staff
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search staff members..."
+                            class="w-80 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring-primary">
 
-                </a>
+                    </form>
+
+                    <a href="{{ route('staff.create') }}"
+                        class="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
+
+                        Add Staff
+
+                    </a>
+                </div>
+
 
             </div>
+
+            @php
+                $newDirection = $direction === 'asc' ? 'desc' : 'asc';
+            @endphp
 
             {{-- Table --}}
             <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
@@ -51,15 +67,64 @@
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
 
                                 <th class="px-6 py-5">
-                                    Name
+                                    No.
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Email
+                                    <a href="{{ route('staff.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'name',
+                                    
+                                        'direction' => request('sort') == 'name' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        NAME
+
+                                        @if (request('sort') == 'name')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Role
+                                    <a href="{{ route('staff.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'email',
+                                    
+                                        'direction' => request('sort') == 'email' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        EMAIL
+
+                                        @if (request('sort') == 'email')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
+                                </th>
+
+                                <th class="px-6 py-5">
+                                    <a href="{{ route('staff.index', [
+                                        'search' => request('search'),
+                                    
+                                        'sort' => 'role',
+                                    
+                                        'direction' => request('sort') == 'role' && request('direction') == 'asc' ? 'desc' : 'asc',
+                                    ]) }}"
+                                        class="inline-flex items-center gap-2 hover:text-primary">
+
+                                        ROLE
+
+                                        @if (request('sort') == 'role')
+                                            {{ request('direction') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+
+                                    </a>
                                 </th>
 
                                 <th class="px-6 py-5 text-right">
@@ -74,6 +139,10 @@
 
                             @forelse ($staff as $user)
                                 <tr class="transition hover:bg-gray-50">
+
+                                    <td class="px-6 py-5 text-sm text-gray-600">
+                                        {{ $loop->iteration }}
+                                    </td>
 
                                     <td class="px-6 py-5 font-medium text-gray-900">
 

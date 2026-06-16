@@ -42,7 +42,7 @@
 
                     {{-- Add Button --}}
                     <a href="{{ route('service-records.create') }}"
-                        class="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm">
+                        class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                         + Add Job
 
@@ -62,6 +62,10 @@
                         <thead class="bg-gray-50">
 
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                                <th class="px-6 py-4">
+                                    No.
+                                </th>
 
                                 <th class="px-6 py-5">
 
@@ -185,6 +189,10 @@
                             @forelse ($serviceRecords as $record)
 
                                 <tr class="hover:bg-gray-50 transition">
+
+                                    <td class="px-6 py-4 text-gray-500">
+                                        {{ ($serviceRecords->currentPage() - 1) * $serviceRecords->perPage() + $loop->iteration }}
+                                    </td>
 
                                     {{-- Vehicle --}}
                                     <td class="px-6 py-5">

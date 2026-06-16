@@ -43,7 +43,7 @@
 
                     {{-- Add Button --}}
                     <a href="{{ route('customers.create') }}"
-                        class="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+                        class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                         + Add Customer
 
@@ -64,6 +64,10 @@
                         <thead class="bg-gray-50">
 
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+                                <th class="px-6 py-4">
+                                    No.
+                                </th>
 
                                 <th class="px-6 py-5">
 
@@ -145,6 +149,10 @@
 
                             @forelse ($customers as $customer)
                                 <tr class="transition hover:bg-gray-50">
+
+                                    <td class="px-6 py-4 text-gray-500">
+                                        {{ ($customers->currentPage() - 1) * $customers->perPage() + $loop->iteration }}
+                                    </td>
 
                                     {{-- Customer --}}
                                     <td class="px-6 py-5">

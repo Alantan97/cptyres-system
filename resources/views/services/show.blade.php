@@ -31,9 +31,9 @@
                 </div>
 
                 <a href="{{ route('services.index') }}"
-                    class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
+                    class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
 
-                    ← Back
+                    Back
 
                 </a>
 

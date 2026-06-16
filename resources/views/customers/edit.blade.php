@@ -9,12 +9,6 @@
 
                 <div>
 
-                    <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-
-                        Customer Management
-
-                    </div>
-
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900">
 
                         Edit Customer
@@ -29,20 +23,18 @@
 
                 </div>
 
-                <a href="{{ route('customers.index') }}"
-                    class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
+                <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
 
-                    ← Back
+                    Customer Management
 
-                </a>
+                </div>
 
             </div>
 
             {{-- Form Card --}}
             <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
 
-                <form action="{{ route('customers.update', $customer->id) }}"
-                    method="POST">
+                <form action="{{ route('customers.update', $customer->id) }}" method="POST">
 
                     @csrf
                     @method('PUT')
@@ -58,9 +50,7 @@
 
                             </label>
 
-                            <input type="text"
-                                name="full_name"
-                                value="{{ $customer->full_name }}"
+                            <input type="text" name="full_name" value="{{ $customer->full_name }}"
                                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
                         </div>
@@ -74,9 +64,7 @@
 
                             </label>
 
-                            <input type="text"
-                                name="phone"
-                                value="{{ $customer->phone }}"
+                            <input type="text" name="phone" value="{{ $customer->phone }}"
                                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
                         </div>
@@ -90,9 +78,7 @@
 
                             </label>
 
-                            <input type="email"
-                                name="email"
-                                value="{{ $customer->email }}"
+                            <input type="email" name="email" value="{{ $customer->email }}"
                                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">
 
                         </div>
@@ -106,8 +92,7 @@
 
                             </label>
 
-                            <textarea name="address"
-                                rows="5"
+                            <textarea name="address" rows="5"
                                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-primary focus:ring-primary">{{ $customer->address }}</textarea>
 
                         </div>
@@ -115,10 +100,17 @@
                     </div>
 
                     {{-- Footer --}}
-                    <div class="flex items-center justify-end border-t border-gray-100 bg-gray-50 px-8 py-5">
+                    <div class="flex items-center justify-end gap-4 border-t border-gray-100 bg-gray-50 px-8 py-5">
+
+                        <a href="{{ route('customers.index') }}"
+                            class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+
+                            Cancel
+
+                        </a>
 
                         <button type="submit"
-                            class="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+                            class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                             Update Customer
 

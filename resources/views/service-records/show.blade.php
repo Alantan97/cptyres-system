@@ -9,6 +9,13 @@
 
                 <div>
 
+                    <div
+                        class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+
+                        Job Order Management
+
+                    </div>
+
                     <h1 class="text-3xl font-bold text-gray-900">
 
                         Job Order Details
@@ -24,9 +31,9 @@
                 </div>
 
                 <a href="{{ route('service-records.index') }}"
-                    class="rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
+                    class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
 
-                    ← Back
+                    Back
 
                 </a>
 
@@ -60,21 +67,18 @@
                         <div>
 
                             @if ($serviceRecord->status == 'completed')
-
                                 <span class="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
 
                                     Completed
 
                                 </span>
-
                             @else
-
-                                <span class="rounded-full bg-yellow-100 px-4 py-2 text-sm font-semibold text-yellow-700">
+                                <span
+                                    class="rounded-full bg-yellow-100 px-4 py-2 text-sm font-semibold text-yellow-700">
 
                                     Pending
 
                                 </span>
-
                             @endif
 
                         </div>
@@ -185,7 +189,6 @@
                             <tbody class="divide-y divide-gray-100 bg-white">
 
                                 @foreach ($serviceRecord->items as $item)
-
                                     <tr>
 
                                         <td class="px-6 py-4 font-medium text-gray-900">
@@ -213,7 +216,6 @@
                                         </td>
 
                                     </tr>
-
                                 @endforeach
 
                             </tbody>

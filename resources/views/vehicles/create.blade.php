@@ -9,13 +9,6 @@
 
                 <div>
 
-                    <div
-                        class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-
-                        Vehicle Management
-
-                    </div>
-
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900">
 
                         Add Vehicle
@@ -30,12 +23,11 @@
 
                 </div>
 
-                <a href="{{ route('vehicles.index') }}"
-                    class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
+                <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
 
-                    ← Back
+                    Vehicle Management
 
-                </a>
+                </div>
 
             </div>
 
@@ -150,10 +142,17 @@
                     </div>
 
                     {{-- Footer --}}
-                    <div class="flex items-center justify-end border-t border-gray-100 bg-gray-50 px-8 py-5">
+                    <div class="flex items-center justify-end gap-4 border-t border-gray-100 bg-gray-50 px-8 py-5">
+
+                        <a href="{{ route('vehicles.index') }}"
+                            class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+
+                            Cancel
+
+                        </a>
 
                         <button type="submit"
-                            class="inline-flex items-center rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:opacity-90">
+                            class="inline-flex items-center rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
                             Save Vehicle
 
