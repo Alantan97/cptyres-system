@@ -1,35 +1,331 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
             {{-- Header --}}
-            <div class="mb-10">
+            <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
-                <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                <div>
+                    <div
+                        class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
 
-                    Workshop Dashboard
+                        Workshop Dashboard
 
+                    </div>
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+
+                        Dashboard Overview
+
+                    </h1>
+
+                    <p class="mt-2 text-sm text-gray-500">
+
+                        Monitor workshop activities, services, and transactions.
+
+                    </p>
                 </div>
-
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-
-                    Dashboard Overview
-
-                </h1>
-
-                <p class="mt-2 text-sm text-gray-500">
-
-                    Monitor workshop activities, services, and transactions.
-
-                </p>
 
             </div>
 
             {{-- Stats --}}
+            <div class="mt-6 grid gap-6 lg:grid-cols-4">
 
-            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                {{-- Pending --}}
+                <div
+                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+
+                    <div class="flex items-start justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+
+                                Pending Services
+
+                            </p>
+
+                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-yellow-600">
+
+                                {{ $pendingServices }}
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-50 text-yellow-600 transition group-hover:scale-110">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
+
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- In Progress --}}
+                <div
+                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+
+                    <div class="flex items-start justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+
+                                In Progress Services
+
+                            </p>
+
+                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-blue-600">
+
+                                {{ $inProgressServices }}
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition group-hover:scale-110">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.867 19.125h.008v.008h-.008v-.008Z" />
+                            </svg>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- Completed --}}
+                <div
+                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+
+                    <div class="flex items-start justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+
+                                Completed Services
+
+                            </p>
+
+                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-green-600">
+
+                                {{ $completedServices }}
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600 transition group-hover:scale-110">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
+
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75m6 2.25a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- Income --}}
+                <div
+                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+
+                    <div class="flex items-start justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+
+                                Total Income
+
+                            </p>
+
+                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-primary">
+
+                                RM {{ number_format($totalIncome, 2) }}
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition group-hover:scale-110">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
+
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6v12m0 0l-3-3m3 3l3-3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{-- Service Reminders --}}
+            <div class="mt-8 overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm">
+
+                <div class="flex justify-between border-b border-orange-100 bg-orange-50 px-8 py-5">
+
+                    <div>
+
+                        <h2 class="text-xl font-bold text-orange-700">
+
+                            Service Reminders
+
+                        </h2>
+
+                        <p class="mt-1 text-sm text-orange-600">
+
+                            Vehicles that may require servicing soon.
+
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-orange-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                            stroke="currentColor" class="h-7 w-7">
+
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m9.303 3.376c.866 1.5-.217 3.374-1.95 3.374H4.647c-1.733 0-2.816-1.874-1.95-3.374L10.05 3.374c.866-1.5 3.034-1.5 3.9 0l7.353 12.752zM12 16.5h.008v.008H12v-.008z" />
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+                <div class="divide-y divide-gray-100">
+
+                    @forelse ($dueVehicles as $record)
+                        <div class="flex items-center justify-between px-8 py-5 transition hover:bg-gray-50">
+
+                            <div>
+
+                                <div class="font-semibold text-gray-900">
+
+                                    {{ $record->vehicle->plate_number }}
+
+                                </div>
+
+                                <div class="mt-1 text-sm text-gray-500">
+
+                                    {{ $record->vehicle->customer->full_name }}
+
+                                </div>
+
+                            </div>
+
+                            <div class="text-right">
+
+                                <div class="text-sm font-medium text-orange-600">
+
+                                    Last Service
+
+                                </div>
+
+                                <div class="mt-1 text-sm text-gray-500">
+
+                                    {{ \Carbon\Carbon::parse($record->service_date)->format('d M Y') }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @empty
+
+                        <div class="px-8 py-10 text-center text-sm text-gray-500">
+
+                            No vehicles currently require servicing.
+
+                        </div>
+                    @endforelse
+
+                </div>
+
+            </div>
+
+            {{-- 3rd Row --}}
+            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4 mt-8">
+
+                {{-- Service Records --}}
+                <div
+                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+
+                    <div class="flex items-start justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-gray-500">
+
+                                Total Job Orders
+
+                            </p>
+
+                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-emerald-600">
+
+                                {{ $totalServiceRecords }}
+
+                            </h2>
+
+                        </div>
+
+                        <div
+                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 transition group-hover:scale-110">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.8" stroke="currentColor" class="size-6">
+
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6M7.5 4.5h9A2.25 2.25 0 0118.75 6.75v10.5A2.25 2.25 0 0116.5 19.5h-9A2.25 2.25 0 015.25 17.25V6.75A2.25 2.25 0 017.5 4.5z" />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
                 {{-- Customers --}}
                 <div
@@ -146,256 +442,6 @@
 
                 </div>
 
-                {{-- Service Records --}}
-                <div
-                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
-
-                    <div class="flex items-start justify-between">
-
-                        <div>
-
-                            <p class="text-sm font-medium text-gray-500">
-
-                                Job Orders
-
-                            </p>
-
-                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-emerald-600">
-
-                                {{ $totalServiceRecords }}
-
-                            </h2>
-
-                        </div>
-
-                        <div
-                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 transition group-hover:scale-110">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.8" stroke="currentColor" class="size-6">
-
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12h6m-6 4h6M7.5 4.5h9A2.25 2.25 0 0118.75 6.75v10.5A2.25 2.25 0 0116.5 19.5h-9A2.25 2.25 0 015.25 17.25V6.75A2.25 2.25 0 017.5 4.5z" />
-
-                            </svg>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            {{-- Service Reminders --}}
-            <div class="mt-8 overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm">
-
-                <div class="flex justify-between border-b border-orange-100 bg-orange-50 px-8 py-5">
-
-                    <div>
-
-                        <h2 class="text-xl font-bold text-orange-700">
-
-                            Service Reminders
-
-                        </h2>
-
-                        <p class="mt-1 text-sm text-orange-600">
-
-                            Vehicles that may require servicing soon.
-
-                        </p>
-
-                    </div>
-
-                    <div
-                        class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-orange-600">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
-                            stroke="currentColor" class="h-7 w-7">
-
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 9v3.75m9.303 3.376c.866 1.5-.217 3.374-1.95 3.374H4.647c-1.733 0-2.816-1.874-1.95-3.374L10.05 3.374c.866-1.5 3.034-1.5 3.9 0l7.353 12.752zM12 16.5h.008v.008H12v-.008z" />
-
-                        </svg>
-
-                    </div>
-
-                </div>
-
-                <div class="divide-y divide-gray-100">
-
-                    @forelse ($dueVehicles as $record)
-                        <div class="flex items-center justify-between px-8 py-5 transition hover:bg-gray-50">
-
-                            <div>
-
-                                <div class="font-semibold text-gray-900">
-
-                                    {{ $record->vehicle->plate_number }}
-
-                                </div>
-
-                                <div class="mt-1 text-sm text-gray-500">
-
-                                    {{ $record->vehicle->customer->full_name }}
-
-                                </div>
-
-                            </div>
-
-                            <div class="text-right">
-
-                                <div class="text-sm font-medium text-orange-600">
-
-                                    Last Service
-
-                                </div>
-
-                                <div class="mt-1 text-sm text-gray-500">
-
-                                    {{ \Carbon\Carbon::parse($record->service_date)->format('d M Y') }}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    @empty
-
-                        <div class="px-8 py-10 text-center text-sm text-gray-500">
-
-                            No vehicles currently require servicing.
-
-                        </div>
-                    @endforelse
-
-                </div>
-
-            </div>
-
-            {{-- Second Row --}}
-
-            <div class="mt-6 grid gap-6 lg:grid-cols-3">
-
-                {{-- Income --}}
-                <div
-                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
-
-                    <div class="flex items-start justify-between">
-
-                        <div>
-
-                            <p class="text-sm font-medium text-gray-500">
-
-                                Total Income
-
-                            </p>
-
-                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-primary">
-
-                                RM {{ number_format($totalIncome, 2) }}
-
-                            </h2>
-
-                        </div>
-
-                        <div
-                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition group-hover:scale-110">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 6v12m0 0l-3-3m3 3l3-3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                            </svg>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {{-- Pending --}}
-                <div
-                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
-
-                    <div class="flex items-start justify-between">
-
-                        <div>
-
-                            <p class="text-sm font-medium text-gray-500">
-
-                                Pending Services
-
-                            </p>
-
-                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-yellow-600">
-
-                                {{ $pendingServices }}
-
-                            </h2>
-
-                        </div>
-
-                        <div
-                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-50 text-yellow-600 transition group-hover:scale-110">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                            </svg>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {{-- Completed --}}
-                <div
-                    class="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
-
-                    <div class="flex items-start justify-between">
-
-                        <div>
-
-                            <p class="text-sm font-medium text-gray-500">
-
-                                Completed Services
-
-                            </p>
-
-                            <h2 class="mt-4 text-4xl font-bold tracking-tight text-green-600">
-
-                                {{ $completedServices }}
-
-                            </h2>
-
-                        </div>
-
-                        <div
-                            class="self-center flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600 transition group-hover:scale-110">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.8" stroke="currentColor" class="h-6 w-6">
-
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12.75L11.25 15 15 9.75m6 2.25a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                            </svg>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
             </div>
 
             {{-- Recent Transactions --}}
@@ -436,7 +482,7 @@
                                 </th>
 
                                 <th class="px-6 py-4">
-                                    Price
+                                    Total
                                 </th>
 
                                 <th class="px-6 py-4">
@@ -461,7 +507,7 @@
                                         {{ $loop->iteration }}
 
                                     </td>
-                                    
+
                                     <td class="px-6 py-4 font-medium uppercase text-gray-900">
 
                                         {{ $record->vehicle->plate_number }}
@@ -497,29 +543,53 @@
 
                                     </td>
 
-                                    <td class="px-6 py-4 text-sm font-semibold text-primary">
+                                    <td class="px-6 py-5">
 
-                                        RM {{ number_format($record->total_price, 2) }}
+                                        <span
+                                            class="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+
+                                            RM {{ number_format($record->total_price, 2) }}
+
+                                        </span>
 
                                     </td>
 
                                     <td class="px-6 py-4">
 
-                                        @if ($record->status == 'completed')
-                                            <span
-                                                class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                                        <form method="POST" action="{{ route('service-records.status', $record) }}">
 
-                                                Completed
+                                            @csrf
+                                            @method('PATCH')
 
-                                            </span>
-                                        @else
-                                            <span
-                                                class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+                                            <select name="status" onchange="this.form.submit()"
+                                                class="
+                                                cursor-pointer rounded-full border-0 px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-0 min-w-[100px]
 
-                                                Pending
+                                                {{ $record->status == 'completed'
+                                                    ? 'bg-green-100 text-green-700'
+                                                    : ($record->status == 'in_progress'
+                                                        ? 'bg-blue-100 text-blue-700'
+                                                        : 'bg-yellow-100 text-yellow-700') }}
+                                            ">
 
-                                            </span>
-                                        @endif
+                                                <option value="pending"
+                                                    {{ $record->status == 'pending' ? 'selected' : '' }}>
+                                                    Pending
+                                                </option>
+
+                                                <option value="in_progress"
+                                                    {{ $record->status == 'in_progress' ? 'selected' : '' }}>
+                                                    In Progress
+                                                </option>
+
+                                                <option value="completed"
+                                                    {{ $record->status == 'completed' ? 'selected' : '' }}>
+                                                    Completed
+                                                </option>
+
+                                            </select>
+
+                                        </form>
 
                                     </td>
 
@@ -551,13 +621,17 @@
                             @empty
 
                                 <tr>
+                                    <td colspan="8" class="h-48 text-center align-middle">
 
-                                    <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-500">
+                                        <div class="flex flex-col items-center justify-center">
 
-                                        No recent transactions found.
+                                            <p class="mt-1 text-gray-500">
+                                                No recent transactions found.
+                                            </p>
+
+                                        </div>
 
                                     </td>
-
                                 </tr>
                             @endforelse
 

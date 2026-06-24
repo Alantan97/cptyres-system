@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 
 class CustomerController extends Controller
 {
@@ -75,11 +76,17 @@ class CustomerController extends Controller
             'address' => 'nullable',
         ]);
 
-        Customer::create([
+        $customer = Customer::create([
             'full_name' => $request->full_name,
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
+        ]);
+
+        Notification::create([
+            'title' => 'Customer Added',
+            'message' => $customer->full_name . ' was added.',
+            'url' => route('customers.index'),
         ]);
 
         return redirect()
@@ -128,6 +135,12 @@ class CustomerController extends Controller
             'address' => $request->address,
         ]);
 
+        Notification::create([
+            'title' => 'Customer Updated',
+            'message' => $customer->full_name . ' was updated.',
+            'url' => route('customers.index'),
+        ]);
+
         return redirect()
             ->route('customers.index')
             ->with('success', 'Customer updated successfully');
@@ -141,6 +154,12 @@ class CustomerController extends Controller
         if (Auth::user()->role !== 'admin') {
             abort(403);
         }
+
+        Notification::create([
+            'title' => 'Customer Deleted',
+            'message' => $customer->full_name . ' was deleted.',
+            'url' => route('customers.index'),
+        ]);
 
         $customer->delete();
 

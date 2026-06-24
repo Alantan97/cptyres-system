@@ -1,8 +1,16 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+            <x-breadcrumb :items="[['label' => 'Management', 'url' => route('staff.index')], ['label' => 'User']]" />
 
             {{-- Header --}}
             <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -12,19 +20,19 @@
                     <div
                         class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
 
-                        Staff Management
+                        User Management
 
                     </div>
 
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900">
 
-                        Staff
+                        User
 
                     </h1>
 
                     <p class="mt-2 text-sm text-gray-500">
 
-                        Manage workshop staff accounts and permissions.
+                        Manage workshop user accounts and permissions.
 
                     </p>
 
@@ -34,8 +42,8 @@
                 <div class="flex items-center gap-3">
                     <form action="{{ route('staff.index') }}" method="GET">
 
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Search staff members..."
+                        <input type="text" id="search" name="search" value="{{ request('search') }}"
+                            placeholder="Search user..."
                             class="w-80 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring-primary">
 
                     </form>
@@ -43,7 +51,7 @@
                     <a href="{{ route('staff.create') }}"
                         class="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
-                        Add Staff
+                        + Add User
 
                     </a>
                 </div>
@@ -215,13 +223,17 @@
                             @empty
 
                                 <tr>
+                                    <td colspan="8" class="h-48 text-center align-middle">
 
-                                    <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500">
+                                        <div class="flex flex-col items-center justify-center">
 
-                                        No staff found.
+                                            <p class="font-semibold text-gray-900">
+                                                No users found
+                                            </p>
+
+                                        </div>
 
                                     </td>
-
                                 </tr>
                             @endforelse
 
@@ -238,3 +250,20 @@
     </div>
 
 </x-app-layout>
+
+<script>
+    let searchTimeout;
+
+    document.getElementById('search')
+        .addEventListener('input', function() {
+
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+
+                this.form.submit();
+
+            }, 0);
+
+        });
+</script>

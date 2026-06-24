@@ -7,6 +7,7 @@ use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 
 class StaffController extends Controller
 {
@@ -62,6 +63,12 @@ class StaffController extends Controller
             'role' => $validated['role'],
         ]);
 
+        Notification::create([
+            'title' => 'Staff Created',
+            'message' => $validated['name'] . ' was created.',
+            'url' => route('staff.index'),
+        ]);
+
         return redirect()
             ->route('staff.index')
             ->with('success', 'Staff created successfully.');
@@ -111,6 +118,12 @@ class StaffController extends Controller
 
         $staff->save();
 
+        Notification::create([
+            'title' => 'Staff Updated',
+            'message' => $staff->name . ' was updated.',
+            'url' => route('staff.index'),
+        ]);
+
         return redirect()
             ->route('staff.index')
             ->with('success', 'Staff updated successfully.');
@@ -134,6 +147,12 @@ class StaffController extends Controller
 
             abort(403);
         }
+
+        Notification::create([
+            'title' => 'Staff Deleted',
+            'message' => $staff->name . ' was deleted.',
+            'url' => route('staff.index'),
+        ]);
 
         $staff->delete();
 

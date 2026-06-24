@@ -20,6 +20,10 @@ class NotificationController extends Controller
             );
         }
 
+        if ($notification->url) {
+            return redirect($notification->url);
+        }
+
         return back();
     }
 

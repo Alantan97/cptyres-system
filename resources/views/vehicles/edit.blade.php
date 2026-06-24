@@ -1,8 +1,20 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-4xl px-6 lg:px-8">
+
+            <x-breadcrumb :items="[
+                ['label' => 'Management', 'url' => route('vehicles.index')],
+                ['label' => 'Vehicles', 'url' => route('vehicles.index')],
+                ['label' => 'Edit Vehicle'],
+            ]" />
 
             {{-- Header --}}
             <div class="mb-8 flex items-center justify-between">
@@ -143,7 +155,7 @@
                     <div class="flex items-center justify-end gap-4 border-t border-gray-100 bg-gray-50 px-8 py-5">
 
                         <a href="{{ route('vehicles.index') }}"
-                            class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+                            class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100">
 
                             Cancel
 

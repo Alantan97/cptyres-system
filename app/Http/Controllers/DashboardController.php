@@ -29,6 +29,9 @@ class DashboardController extends Controller
         $pendingServices = ServiceRecord::where('status', 'pending')
             ->count();
 
+        $inProgressServices = ServiceRecord::where('status', 'in_progress')
+            ->count();
+
         $completedServices = ServiceRecord::where('status', 'completed')
             ->count();
 
@@ -117,6 +120,7 @@ class DashboardController extends Controller
             'totalServices',
             'totalServiceRecords',
             'pendingServices',
+            'inProgressServices',
             'completedServices',
             'totalIncome',
             'recentRecords',

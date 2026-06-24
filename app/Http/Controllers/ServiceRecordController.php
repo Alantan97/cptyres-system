@@ -59,8 +59,13 @@ class ServiceRecordController extends Controller
 
             $serviceRecords->orderBy('total_price', $direction);
         } elseif ($sort == 'status') {
-
-            $serviceRecords->orderBy('status', $direction);
+            $serviceRecords->orderByRaw("
+                CASE status
+                    WHEN 'pending' THEN 1
+                    WHEN 'in_progress' THEN 2
+                    WHEN 'completed' THEN 3
+                END {$direction}
+            ");
         } elseif ($sort == 'date') {
 
             $serviceRecords->orderBy('service_date', $direction);
@@ -274,6 +279,22 @@ class ServiceRecordController extends Controller
 
         return $pdf->stream(
             'invoice-' . $serviceRecord->id . '.pdf'
+        );
+    }
+
+    public function updateStatus(Request $request, ServiceRecord $serviceRecord)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,in_progress,completed',
+        ]);
+
+        $serviceRecord->update([
+            'status' => $request->status,
+        ]);
+
+        return back()->with(
+            'success',
+            'Status updated successfully.'
         );
     }
 }

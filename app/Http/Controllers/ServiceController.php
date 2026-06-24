@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 
 class ServiceController extends Controller
 {
@@ -70,10 +71,16 @@ class ServiceController extends Controller
             'price' => 'required|numeric',
         ]);
 
-        Service::create([
+        $service = Service::create([
             'service_name' => $request->service_name,
             'description' => $request->description,
             'price' => $request->price,
+        ]);
+
+        Notification::create([
+            'title' => 'Service Created',
+            'message' => $service->service_name . ' was created.',
+            'url' => route('services.index'),
         ]);
 
         return redirect()
@@ -113,6 +120,12 @@ class ServiceController extends Controller
             'price' => $request->price,
         ]);
 
+        Notification::create([
+            'title' => 'Service Updated',
+            'message' => $service->service_name . ' was updated.',
+            'url' => route('services.index'),
+        ]);
+
         return redirect()
             ->route('services.index')
             ->with('success', 'Service updated successfully');
@@ -123,6 +136,12 @@ class ServiceController extends Controller
         if (Auth::user()->role !== 'admin') {
             abort(403);
         }
+
+        Notification::create([
+            'title' => 'Service Deleted',
+            'message' => $service->service_name . ' was deleted.',
+            'url' => route('services.index'),
+        ]);
 
         $service->delete();
 

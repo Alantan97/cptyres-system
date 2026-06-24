@@ -1,8 +1,16 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+            <x-breadcrumb :items="[['label' => 'Management', 'url' => route('customers.index')], ['label' => 'Customers']]" />
 
             {{-- Header --}}
             <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -35,7 +43,7 @@
                     {{-- Search --}}
                     <form action="{{ route('customers.index') }}" method="GET">
 
-                        <input type="text" name="search" value="{{ request('search') }}"
+                        <input type="text" id="search" name="search" value="{{ request('search') }}"
                             placeholder="Search customer, phone, email..."
                             class="w-80 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring-primary">
 
@@ -267,40 +275,21 @@
                             @empty
 
                                 <tr>
+                                    <td colspan="8" class="h-48 text-center align-middle">
 
-                                    <td colspan="5" class="px-6 py-16 text-center">
+                                        <div class="flex flex-col items-center justify-center">
 
-                                        <div class="flex flex-col items-center">
-
-                                            <div class="mb-4 rounded-full bg-gray-100 p-4">
-
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M17 20h5V4H2v16h5m10 0v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6m10 0H7" />
-
-                                                </svg>
-
-                                            </div>
-
-                                            <h3 class="text-sm font-semibold text-gray-900">
-
+                                            <p class="font-semibold text-gray-900">
                                                 No customers found
+                                            </p>
 
-                                            </h3>
-
-                                            <p class="mt-1 text-sm text-gray-500">
-
+                                            <p class="mt-1 text-gray-500">
                                                 Start by creating your first customer.
-
                                             </p>
 
                                         </div>
 
                                     </td>
-
                                 </tr>
                             @endforelse
 
@@ -323,3 +312,20 @@
     </div>
 
 </x-app-layout>
+
+<script>
+    let searchTimeout;
+
+    document.getElementById('search')
+        .addEventListener('input', function() {
+
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+
+                this.form.submit();
+
+            }, 0);
+
+        });
+</script>

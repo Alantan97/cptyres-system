@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
 
 class VehicleController extends Controller
 {
@@ -85,13 +86,19 @@ class VehicleController extends Controller
             'color' => 'nullable',
         ]);
 
-        Vehicle::create([
+        $vehicle = Vehicle::create([
             'customer_id' => $request->customer_id,
             'plate_number' => $request->plate_number,
             'brand' => $request->brand,
             'model' => $request->model,
             'year' => $request->year,
             'color' => $request->color,
+        ]);
+
+        Notification::create([
+            'title' => 'Vehicle Created',
+            'message' => $vehicle->plate_number . ' was created.',
+            'url' => route('vehicles.index'),
         ]);
 
         return redirect()
@@ -131,6 +138,12 @@ class VehicleController extends Controller
             'color' => $request->color,
         ]);
 
+        Notification::create([
+            'title' => 'Vehicle Updated',
+            'message' => $vehicle->plate_number . ' was updated.',
+            'url' => route('vehicles.index'),
+        ]);
+
         return redirect()
             ->route('vehicles.index')
             ->with('success', 'Vehicle updated successfully');
@@ -141,6 +154,12 @@ class VehicleController extends Controller
         if (Auth::user()->role !== 'admin') {
             abort(403);
         }
+
+        Notification::create([
+            'title' => 'Vehicle Deleted',
+            'message' => $vehicle->plate_number . ' was deleted.',
+            'url' => route('vehicles.index'),
+        ]);
 
         $vehicle->delete();
 

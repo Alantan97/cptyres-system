@@ -84,4 +84,9 @@ Route::patch(
 )
     ->name('notifications.readAll');
 
+Route::patch(
+    '/service-records/{serviceRecord}/status',
+    [ServiceRecordController::class, 'updateStatus']
+)->name('service-records.status');
+
 require __DIR__ . '/auth.php';

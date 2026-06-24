@@ -1,13 +1,30 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
 
             {{-- Header --}}
+            <x-breadcrumb :items="[
+                ['label' => 'Job Orders', 'url' => route('service-records.index')],
+                ['label' => 'Edit Job Order'],
+            ]" />
+
             <div class="mb-8 flex items-center justify-between">
 
                 <div>
+                    <div
+                        class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+
+                        Job Order Management
+
+                    </div>
                     <h1 class="text-3xl font-bold text-gray-900">
                         Edit Job Order
                     </h1>
@@ -15,12 +32,6 @@
                     <p class="mt-2 text-sm text-gray-500">
                         Update workshop transaction and services.
                     </p>
-                </div>
-
-                <div class="mb-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-
-                    Job Order Management
-
                 </div>
 
             </div>
@@ -103,10 +114,65 @@
 
                         </div>
 
+                        <div class="mb-3 hidden gap-4 md:grid md:grid-cols-[1.4fr_1fr_1fr_1fr_50px]">
+
+                            <div>
+
+                                <label class="text-sm font-regular text-gray-400">
+
+                                    Service
+
+                                </label>
+
+                            </div>
+
+                            <div>
+
+                                <label class="text-sm font-regular text-gray-400">
+
+                                    Quantity
+
+                                </label>
+
+                            </div>
+
+                            <div>
+
+                                <label class="text-sm font-regular text-gray-400">
+
+                                    Unit Price
+
+                                </label>
+
+                            </div>
+
+                            <div>
+
+                                <label class="text-sm font-regular text-gray-400">
+
+                                    Subtotal
+
+                                </label>
+
+                            </div>
+
+                            <div>
+
+                                <label class="text-sm font-regular text-gray-400">
+
+                                    Action
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
                         <div id="service-container">
 
                             @foreach ($serviceRecord->items as $index => $item)
-                                <div class="service-row mb-4 grid gap-4 md:grid-cols-5">
+                                <div
+                                    class="service-row mb-4 grid items-center gap-4 md:grid-cols-[2fr_1fr_1fr_1fr_auto]">
 
                                     {{-- Service --}}
                                     <select name="services[{{ $index }}][service_id]"
@@ -142,7 +208,11 @@
                                     <button type="button" onclick="removeRow(this)"
                                         class="rounded-xl border border-red-200 px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50">
 
-                                        Remove
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
 
                                     </button>
 
@@ -191,12 +261,20 @@
                             {{-- Actions --}}
                             <div class="flex items-center gap-4">
 
-                                <select name="status" class="rounded-xl border border-gray-200 bg-white px-4 py-3">
+                                <select name="status"
+                                    class="min-w-[140px] rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm">
 
                                     <option value="pending"
                                         {{ $serviceRecord->status == 'pending' ? 'selected' : '' }}>
 
                                         Pending
+
+                                    </option>
+
+                                    <option value="in_progress"
+                                        {{ $serviceRecord->status == 'in_progress' ? 'selected' : '' }}>
+
+                                        In Progress
 
                                     </option>
 
@@ -210,7 +288,7 @@
                                 </select>
 
                                 <a href="{{ route('service-records.index') }}"
-                                    class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+                                    class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100">
 
                                     Cancel
 
@@ -257,7 +335,7 @@
             });
 
             const html = `
-                <div class="service-row mb-4 grid gap-4 md:grid-cols-5">
+                <div class="service-row mb-4 grid items-center gap-4 md:grid-cols-[2fr_1fr_1fr_1fr_auto]">
 
                     <select name="services[${serviceIndex}][service_id]"
                         class="service-select rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
@@ -284,7 +362,9 @@
                         onclick="removeRow(this)"
                         class="rounded-xl border border-red-200 px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50">
 
-                        Remove
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
 
                     </button>
 

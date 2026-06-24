@@ -1,8 +1,19 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-6xl px-6 lg:px-8">
+
+            <x-breadcrumb :items="[
+                ['label' => 'Job Orders', 'url' => route('service-records.index')],
+                ['label' => 'Job Order Details'],
+            ]" />
 
             {{-- Header --}}
             <div class="mb-8 flex items-center justify-between">
@@ -31,7 +42,14 @@
                 </div>
 
                 <a href="{{ route('service-records.index') }}"
-                    class="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+                    class="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="h-4 w-4">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+
+                    </svg>
 
                     Back
 

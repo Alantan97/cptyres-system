@@ -1,6 +1,12 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-50 bg-no-repeat py-10"
+        style="
+        background-image: url('{{ asset('images/dashboard-bg.png') }}');
+        background-position: top center;
+        background-size: 100% auto;
+        background-attachment: fixed;
+    ">
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
@@ -34,7 +40,7 @@
                     {{-- Search --}}
                     <form action="{{ route('service-records.index') }}" method="GET">
 
-                        <input type="text" name="search" value="{{ request('search') }}"
+                        <input type="text" id="search" name="search" value="{{ request('search') }}"
                             placeholder="Search plate number, customer, status..."
                             class="w-80 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm shadow-sm focus:border-primary focus:ring-primary">
 
@@ -44,7 +50,7 @@
                     <a href="{{ route('service-records.create') }}"
                         class="rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90">
 
-                        + Add Job
+                        + Create Job Order
 
                     </a>
 
@@ -63,7 +69,7 @@
 
                             <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
 
-                                <th class="px-6 py-4">
+                                <th class="px-4 py-4">
                                     No.
                                 </th>
 
@@ -262,21 +268,40 @@
                                     {{-- Status --}}
                                     <td class="px-6 py-5">
 
-                                        @if ($record->status == 'completed')
-                                            <span
-                                                class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                                        <form method="POST" action="{{ route('service-records.status', $record) }}">
 
-                                                Completed
+                                            @csrf
+                                            @method('PATCH')
 
-                                            </span>
-                                        @else
-                                            <span
-                                                class="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+                                            <select name="status" onchange="this.form.submit()"
+                                                class="
+                                                cursor-pointer rounded-full border-0 px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-0 min-w-[100px]
 
-                                                Pending
+                                                {{ $record->status == 'completed'
+                                                    ? 'bg-green-100 text-green-700'
+                                                    : ($record->status == 'in_progress'
+                                                        ? 'bg-blue-100 text-blue-700'
+                                                        : 'bg-yellow-100 text-yellow-700') }}
+                                            ">
 
-                                            </span>
-                                        @endif
+                                                <option value="pending"
+                                                    {{ $record->status == 'pending' ? 'selected' : '' }}>
+                                                    Pending
+                                                </option>
+
+                                                <option value="in_progress"
+                                                    {{ $record->status == 'in_progress' ? 'selected' : '' }}>
+                                                    In Progress
+                                                </option>
+
+                                                <option value="completed"
+                                                    {{ $record->status == 'completed' ? 'selected' : '' }}>
+                                                    Completed
+                                                </option>
+
+                                            </select>
+
+                                        </form>
 
                                     </td>
 
@@ -365,27 +390,21 @@
                             @empty
 
                                 <tr>
+                                    <td colspan="8" class="h-48 text-center align-middle">
 
-                                    <td colspan="6" class="px-6 py-16 text-center">
+                                        <div class="flex flex-col items-center justify-center">
 
-                                        <div>
-
-                                            <h3 class="text-sm font-semibold text-gray-900">
-
+                                            <p class="font-semibold text-gray-900">
                                                 No service records found
+                                            </p>
 
-                                            </h3>
-
-                                            <p class="mt-1 text-sm text-gray-500">
-
+                                            <p class="mt-1 text-gray-500">
                                                 Start by creating your first workshop transaction.
-
                                             </p>
 
                                         </div>
 
                                     </td>
-
                                 </tr>
 
                             @endforelse
@@ -409,3 +428,20 @@
     </div>
 
 </x-app-layout>
+
+<script>
+    let searchTimeout;
+
+    document.getElementById('search')
+        .addEventListener('input', function() {
+
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+
+                this.form.submit();
+
+            }, 0);
+
+        });
+</script>

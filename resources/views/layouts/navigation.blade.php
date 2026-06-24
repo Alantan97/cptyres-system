@@ -6,7 +6,17 @@
 
 @endphp
 
-<nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-gray-100 bg-white/80 shadow-sm backdrop-blur">
+@php
+
+    $managementActive =
+        request()->routeIs('customers.*') ||
+        request()->routeIs('vehicles.*') ||
+        request()->routeIs('services.*') ||
+        request()->routeIs('staff.*');
+
+@endphp
+
+<nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-gray-100 bg-white/100 shadow-sm backdrop-blur">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -27,7 +37,7 @@
                 @endif
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-3 sm:ms-10 sm:flex sm:items-center py-2">
                     @if (auth()->user()->isAdmin())
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
@@ -36,25 +46,80 @@
                     <x-nav-link :href="route('service-records.index')" :active="request()->routeIs('service-records.*')">
                         Job Orders
                     </x-nav-link>
-                    <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
-                        Customers
-                    </x-nav-link>
-                    <x-nav-link :href="route('vehicles.index')" :active="request()->routeIs('vehicles.*')">
-                        Vehicles
-                    </x-nav-link>
-                    <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
-                        Services
-                    </x-nav-link>
-                    @if (auth()->user()->isAdmin())
-                        <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.*')">
-                            Staff Management
-                        </x-nav-link>
-                    @endif
+                    <div x-data="{ openManagement: false }" class="relative flex items-center">
+
+                        <button @click="openManagement = !openManagement"
+                            class="{{ $managementActive
+                                ? 'inline-flex items-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition'
+                                : 'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-gray-500 transition hover:bg-gray-100 hover:text-primary' }}">
+
+                            Management
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                                stroke="currentColor" class="h-3 w-3 transition-transform duration-200 ease-in-out"
+                                :class="{ 'rotate-180': openManagement }">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+
+                            </svg>
+
+                        </button>
+
+                        <div x-show="openManagement" @click.away="openManagement = false" x-transition
+                            class="absolute left-0 top-14 z-50 w-56 rounded-2xl border border-gray-100 bg-white p-2 shadow-lg">
+
+                            <a href="{{ route('customers.index') }}"
+                                class="block rounded-xl px-4 py-3 text-sm hover:bg-gray-50">
+
+                                Customers
+
+                            </a>
+
+                            <a href="{{ route('vehicles.index') }}"
+                                class="block rounded-xl px-4 py-3 text-sm hover:bg-gray-50">
+
+                                Vehicles
+
+                            </a>
+
+                            <a href="{{ route('services.index') }}"
+                                class="block rounded-xl px-4 py-3 text-sm hover:bg-gray-50">
+
+                                Services
+
+                            </a>
+
+                            @if (auth()->user()->isAdmin())
+                                <a href="{{ route('staff.index') }}"
+                                    class="block rounded-xl px-4 py-3 text-sm hover:bg-gray-50">
+
+                                    Users
+
+                                </a>
+                            @endif
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+
+                <a href="{{ route('service-records.create') }}"
+                    class="mr-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                        stroke="currentColor" class="h-3 w-3">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+
+                    </svg>
+
+                    New Job Order
+
+                </a>
 
                 {{-- Notifications --}}
                 <div class="hidden sm:flex sm:items-center sm:me-4">
